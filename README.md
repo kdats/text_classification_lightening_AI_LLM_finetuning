@@ -39,7 +39,7 @@ A lightweight, easy-to-run pipeline for fine-tuning a TinyLlama-based model on t
    python-dotenv
    ```
 
-4. **Set secrets**: in Lightning dashboard, add `HF_TOKEN` as a secret.
+4. **Set secrets**: in Lightning dashboard, add `HF_TOKEN` as a secret using environment variables
 
 ---
 
