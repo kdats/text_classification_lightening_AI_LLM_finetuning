@@ -68,29 +68,29 @@ from peft import LoraConfig, get_peft_model
 import evaluate, numpy as np
 
 # 1) Load data
-datasets = load_dataset("ag_news")
-train = datasets["train"].shuffle(42).select(range(10000))
+datasets = load_dataset("ag_news") <br>
+train = datasets["train"].shuffle(42).select(range(10000))<br>
 val   = datasets["test"].select(range(2000))
 
 # 2) Tokenizer
-tok = AutoTokenizer.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+tok = AutoTokenizer.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")<br>
 tok.pad_token = tok.eos_token
 
-def preprocess(batch):
-    return tok(batch["text"], padding="max_length", truncation=True, max_length=128)
-train = train.map(preprocess, batched=True).rename_column("label","labels").remove_columns("text")
-val   = val.map(preprocess, batched=True).rename_column("label","labels").remove_columns("text")
+def preprocess(batch):<br>
+    return tok(batch["text"], padding="max_length", truncation=True, max_length=128)<br>
+train = train.map(preprocess, batched=True).rename_column("label","labels").remove_columns("text")<br>
+val   = val.map(preprocess, batched=True).rename_column("label","labels").remove_columns("text")<br>
 
 # 3) Base model + LoRA
 base = AutoModelForSequenceClassification.from_pretrained(
     "TinyLlama/TinyLlama-1.1B-Chat-v1.0", num_labels=4,
     device_map="auto", torch_dtype=torch.float16
-)
+)<br>
 lora_cfg = LoraConfig(
     task_type="SEQ_CLS", r=8, lora_alpha=16, lora_dropout=0.05,
     target_modules=["q_proj","k_proj","v_proj","o_proj","gate_proj","down_proj","up_proj"]
-)
-model = get_peft_model(base, lora_cfg)
+)<br>
+model = get_peft_model(base, lora_cfg)<br>
 
 # 4) TrainingArguments
 args = TrainingArguments(
