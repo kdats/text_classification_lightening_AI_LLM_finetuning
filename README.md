@@ -63,9 +63,9 @@ The main training script leverages the 🤗 Trainer API with LoRA adapters.
 from transformers import (
     AutoTokenizer, AutoModelForSequenceClassification,
     TrainingArguments, Trainer, DataCollatorWithPadding
-)
-from peft import LoraConfig, get_peft_model
-import evaluate, numpy as np
+)<br>
+from peft import LoraConfig, get_peft_model<br>
+import evaluate, numpy as np<br>
 
 # 1) Load data
 datasets = load_dataset("ag_news") <br>
@@ -94,33 +94,33 @@ model = get_peft_model(base, lora_cfg)<br>
 
 # 4) TrainingArguments
 args = TrainingArguments(
-    output_dir="./checkpoints",
-    num_train_epochs=3,
-    per_device_train_batch_size=16,
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    save_total_limit=3,
-    load_best_model_at_end=True,
-    metric_for_best_model="eval_accuracy",
-    greater_is_better=True,
-    logging_steps=50,
-    report_to="none"
-)
+    output_dir="./checkpoints",<br>
+    num_train_epochs=3,<br>
+    per_device_train_batch_size=16,<br>
+    evaluation_strategy="epoch",<br>
+    save_strategy="epoch",<br>
+    save_total_limit=3,<br>
+    load_best_model_at_end=True,<br>
+    metric_for_best_model="eval_accuracy",<br>
+    greater_is_better=True,<br>
+    logging_steps=50<br>
+    report_to="none"<br>
+)<br>
 
 # 5) Trainer & metrics
-eval_metric = evaluate.load("accuracy")
-def compute_metrics(p):
-    preds = np.argmax(p.predictions, axis=-1)
-    return {"accuracy": eval_metric.compute(predictions=preds, references=p.label_ids)["accuracy"]}
-
-trainer = Trainer(
-    model=model,
-    args=args,
-    train_dataset=train,
-    eval_dataset=val,
-    tokenizer=tok,
-    data_collator=DataCollatorWithPadding(tok),
-    compute_metrics=compute_metrics,
+eval_metric = evaluate.load("accuracy")<br>
+def compute_metrics(p):<br>
+    preds = np.argmax(p.predictions, axis=-1)<br>
+    return {"accuracy": eval_metric.compute(predictions=preds, references=p.label_ids)["accuracy"]}<br>
+<br>
+trainer = Trainer(<br>
+    model=model,<br>
+    args=args,<br>
+    train_dataset=train,<br>
+    eval_dataset=val,<br>
+    tokenizer=tok,<br>
+    data_collator=DataCollatorWithPadding(tok),<br>
+    compute_metrics=compute_metrics,<br>
 )
 
 # 6) Train!
