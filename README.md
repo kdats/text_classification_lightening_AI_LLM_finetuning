@@ -1,4 +1,4 @@
-# Lightning AI Text Classification with LoRA & TinyLlama
+# Lightning AI NEWS Text Classification with PEFT, LoRA & TinyLlama
 
 A lightweight, easy-to-run pipeline for fine-tuning a TinyLlama-based model on text classification using **PEFT-LoRA**. Optimized for **Lightning AI** with GPU instances (e.g., A10G).
 
