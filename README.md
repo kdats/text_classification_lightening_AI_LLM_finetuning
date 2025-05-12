@@ -82,13 +82,13 @@ train = train.map(preprocess, batched=True).rename_column("label","labels").remo
 val   = val.map(preprocess, batched=True).rename_column("label","labels").remove_columns("text")<br>
 
 # 3) Base model + LoRA
-base = AutoModelForSequenceClassification.from_pretrained(
-    "TinyLlama/TinyLlama-1.1B-Chat-v1.0", num_labels=4,
-    device_map="auto", torch_dtype=torch.float16
+base = AutoModelForSequenceClassification.from_pretrained(<br>
+    "TinyLlama/TinyLlama-1.1B-Chat-v1.0", num_labels=4,<br>
+    device_map="auto", torch_dtype=torch.float16<br>
 )<br>
-lora_cfg = LoraConfig(
-    task_type="SEQ_CLS", r=8, lora_alpha=16, lora_dropout=0.05,
-    target_modules=["q_proj","k_proj","v_proj","o_proj","gate_proj","down_proj","up_proj"]
+lora_cfg = LoraConfig(<br>
+    task_type="SEQ_CLS", r=8, lora_alpha=16, lora_dropout=0.05,<br>
+    target_modules=["q_proj","k_proj","v_proj","o_proj","gate_proj","down_proj","up_proj"]<br>
 )<br>
 model = get_peft_model(base, lora_cfg)<br>
 
